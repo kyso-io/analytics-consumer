@@ -22,7 +22,7 @@
     "test:e2e": "jest --config ./test/jest-e2e.json"
   },
   "dependencies": {
-    "@kyso-io/kyso-model": "1.2.51",
+    "@kyso-io/kyso-model": "1.2.52",
     "@nestjs/common": "^9.0.0",
     "@nestjs/config": "^2.2.0",
     "@nestjs/core": "^9.0.0",

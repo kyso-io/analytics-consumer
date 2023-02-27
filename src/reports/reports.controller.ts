@@ -22,6 +22,7 @@ export class ReportsController {
         }
         reportAnalytics.updated_at = new Date()
         // VIEWS
+        reportAnalytics.views.count++
         reportAnalytics.views.last_items.unshift({
             timestamp: new Date(),
             user_id: kysoAnalyticsReportView.user_id,
@@ -31,14 +32,13 @@ export class ReportsController {
         if (reportAnalytics.views.last_items.length > MAX_LIMIT_ITEMS) {
             reportAnalytics.views.last_items.pop()
         }
-
-        let country = null;
+        let country = null
         if (kysoAnalyticsReportView.location) {
             // Extract the text between parentheses
-            const regex = /\(([^)]+)\)/;
-            const matches = regex.exec(kysoAnalyticsReportView.location);
+            const regex = /\(([^)]+)\)/
+            const matches = regex.exec(kysoAnalyticsReportView.location)
             if (matches && matches.length > 1) {
-                country = matches[1];
+                country = matches[1]
             }
         }
         const indexLocation: number = reportAnalytics.views.locations.findIndex((e) => e.location === country)
