@@ -116,13 +116,23 @@ export class ReportsController {
         reportAnalytics.updated_at = new Date()
         // DOWNLOADS
         reportAnalytics.shares.count++
-        reportAnalytics.shares.last_items.unshift({
-            timestamp: new Date(),
-            user_id: kysoAnalyticsReportShare.user_id,
-        })
+        if(reportAnalytics.shares.last_items && reportAnalytics.shares.last_items.length > 0) {
+            reportAnalytics.shares.last_items.unshift({
+                timestamp: new Date(),
+                user_id: kysoAnalyticsReportShare.user_id,
+            });
+        } else {
+            reportAnalytics.shares.last_items = [{
+                timestamp: new Date(),
+                user_id: kysoAnalyticsReportShare.user_id,
+            }];
+        }
+        
         if (reportAnalytics.shares.last_items.length > MAX_LIMIT_ITEMS) {
             reportAnalytics.shares.last_items.pop()
         }
+
+        console.log(reportAnalytics);
         await this.db
             .collection<ReportAnalytics>(Constants.DATABASE_COLLECTION_REPORT_ANALYTICS)
             .updateOne({ reportId: kysoAnalyticsReportShare.report_id }, { $set: { ...reportAnalytics } }, { upsert: true })
